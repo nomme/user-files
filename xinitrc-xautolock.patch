@@ -1,0 +1,5 @@
+--- xinitrc	2017-04-25 10:31:03.928581897 +0200
++++ xinitrc.xautolock	2017-04-25 10:31:52.378978309 +0200
+@@ -1 +1,2 @@
++xautolock -time 20 -locker slock &
+ exec awesome

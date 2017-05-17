@@ -1,0 +1,20 @@
+#!/bin/bash
+
+ARCH="amd64"
+SUIT="yakkety"
+INCLUDE="vim,zsh,htop,curl,gcc-multilib,zip,unzip,xmllint,libxml2-utils,ssh"
+DESTINATION="$1"
+
+function error()
+{
+    echo "$(basename $0) error: $@" >&2
+    exit 1
+}
+
+[ -n "$DESTINATION" ] || error "No destination for bootstrap given"
+[ -d "$DESTINATION" ] || error "$DESTINATION is not a directory"
+[ -n "$ARCH" ] || error "ARCH variable empty"
+[ -n "$SUIT" ] || error "SUIT variable empty"
+[ -n "$INCLUDE" ] || error "INCLUDE variable empty"
+
+debootstrap --arch=$ARCH --include=$INCLUDE $SUIT $DESTINATION

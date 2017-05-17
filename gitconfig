@@ -1,0 +1,35 @@
+[user]
+	name = Jimmie Hogklint
+	email = jimmie.hogklint@delphi.com
+[color]
+	branch = auto
+	diff = auto
+	status = auto
+[diff]
+  tool = kdiff3
+[difftool]
+	prompt = false
+[alias]
+	d = difftool
+	a = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%ci)%C(yellow)%d%Creset%s %C(bold blue)<%an>%Creset' --abbrev-commit --date-order
+  al = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%ci)%C(yellow)%d%Creset%s %C(bold blue)<%an>%Creset' --abbrev-commit --date-order -C -M --all
+	s = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%ci)%C(yellow)%d%Creset%s %C(bold blue)<%an>%Creset' --abbrev-commit --date-order --stat
+	l = log --graph --date-order --decorate
+  #s = log --graph --date-order --abbrev-commit --decorate --pretty=oneline --stat
+	co = checkout
+  p = difftool --tool=p4merge
+  k = difftool --tool=kdiff3
+  m = difftool --tool=meld
+  b = branch
+  showtool = "!showci () { rev=${1:-HEAD}; git difftool $rev~1 $rev; }; showci $1"
+[push]
+	default = tracking
+[mergetool]
+	keepBackup = false
+	prompt = false
+[merge]
+	tool = kdiff3
+	renormalize = false
+  ff = only
+[http]
+  proxy = 127.0.0.1:3128
