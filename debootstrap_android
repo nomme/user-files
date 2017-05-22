@@ -1,8 +1,9 @@
 #!/bin/bash
 
 ARCH="amd64"
-SUIT="yakkety"
-INCLUDE="vim,zsh,htop,curl,gcc-multilib,zip,unzip,xmllint,libxml2-utils,ssh"
+#SUIT="yakkety" # 16.10
+SUIT="xenial" # 16.04
+INCLUDE="vim,zsh,dbus,git,build-essential,python,openjdk-8-jdk,curl,gcc-multilib,zip,unzip,libxml2-utils,ssh,bc,libssl-dev,m4,linux-source,libsm6"
 DESTINATION="$1"
 
 function error()
