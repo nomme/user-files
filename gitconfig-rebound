@@ -1,0 +1,7 @@
+[include]
+  path = ~/repos/user-files/gitconfig
+[user]
+  email = hogklint@gmail.com
+  name = Jimmie Hogklint
+[diff]
+  tool = vimdiff

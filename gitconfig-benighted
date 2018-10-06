@@ -1,0 +1,13 @@
+[include]
+  path = ~/repos/user-files/gitconfig
+[user]
+  name = Jimmie Hogklint
+  email = jimmie.hogklint@aptiv.com
+[diff]
+  tool = vimdiff
+[merge]
+  tool = kdiff3
+[mergetool]
+  renormalize = false
+[http]
+  proxy = 127.0.0.1:3128
