@@ -11,3 +11,6 @@
   renormalize = false
 [http]
   proxy = 127.0.0.1:3128
+  cookiefile = /home/jimmieh/.gitcookies
+[rerere]
+  enabled = false
