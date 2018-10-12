@@ -38,7 +38,7 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
- beautiful.init(awful.util.get_themes_dir() .. "default/theme.lua")
+beautiful.init(awful.util.get_themes_dir() .. "default/theme.lua")
 -- local theme = "pro-dark"
 -- beautiful.init(os.getenv("HOME") .. "/.config/awesome/pro/themes/" .. theme .. "/theme.lua")
 
@@ -255,8 +255,10 @@ globalkeys = awful.util.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+    awful.key({ modkey,           }, "w", function () awful.spawn("win7") end,
+              {description = "Start win7 virtual machine", group = "custom"}),
+    --awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+    --          {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -300,8 +302,10 @@ globalkeys = awful.util.table.join(
               {description = "increase the number of columns", group = "layout"}),
     awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1, nil, true)    end,
               {description = "decrease the number of columns", group = "layout"}),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
-              {description = "select next", group = "layout"}),
+    awful.key({ modkey,           }, "space", function () awful.spawn("slock") end,
+              {description = "Lock screen", group = "custom"}),
+    --awful.key({ modkey,           }, "space", function () awful.layout.inc( 1)                end,
+    --          {description = "select next", group = "layout"}),
     awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(-1)                end,
               {description = "select previous", group = "layout"}),
 
@@ -475,11 +479,11 @@ awful.rules.rules = {
 
     -- Set Firefox to always map on the tag named "2" on screen 1.
      { rule = { class = "Chromium" },
-       properties = { floating = false, screen = 2, tag = "2" } },
-     { rule = { class = "jetbrains-studio" },
-       properties = { floating = false } },
+       properties = { floating = false, screen = function() return screen.count() > 1 and 2 or 1 end, tag = "2" } },
      { rule = { class = "Pidgin" },
        properties = { screen = 1, tag = "3" } },
+     { rule = { class = "Vmplayer" },
+       properties = { maximized = true, floating = false, screen = 1, tag = "4" } },
 }
 -- }}}
 
@@ -552,7 +556,4 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
 awful.util.spawn("/home/jimmieh/local/bin/run_once.sh")
--- awful.util.spawn("chromium --restore-last-session")
--- awful.util.spawn("pidgin")
--- awful.util.spawn("nm-applet")
 -- }}}
