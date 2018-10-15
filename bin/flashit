@@ -1,0 +1,88 @@
+#!/bin/bash
+
+function error()
+{
+  echo "Error: $@" >&2
+  exit -1
+}
+
+[ -z ${AOSP_HOME+x} ] && error "AOSP_HOME not set"
+[ -z ${PROJ_DEVICE+x} ] && error "PROJ_DEVICE not set"
+[ -z ${PROJ_PRODUCT+x} ] && error "PROJ_PRODUCT not set"
+
+while getopts ad option
+do
+    case "$option"
+        in
+        a)
+            ABL="--abl"
+            ;;
+        d)
+            DISABLE="--disable-verity --disable-verification"
+            ;;
+        ?)
+            error "Unknown option"
+            ;;
+    esac
+done
+
+shift $((OPTIND-1))
+
+if [ 1 -eq $# ]
+then
+    FLASH_THIS="$1"
+else
+    # fast_flashfiles directory missing
+    #FLASH_THIS="$AOSP_HOME/out/target/product/$PROJ_DEVICE/fast_flashfiles"
+    FLASH_THIS="$AOSP_HOME/out/target/product/$PROJ_DEVICE/$PROJ_PRODUCT-flashfiles-eng.$USER.zip"
+fi
+
+function run_fastboot()
+{
+    [ -f "fastboot.sh" ] || error "No fastboot.sh file found"
+    chmod 750 fastboot.sh
+
+    if [ 0 -eq $(fastboot devices | wc -l) ]
+    then
+        wadb :
+        adb reboot bootloader
+
+        echo -n "Waiting for fastboot device..."
+        while [ $(fastboot devices | wc -l) -eq 0 ]
+        do
+            echo -n .
+            sleep 1
+        done
+        echo "Found"
+    fi
+
+    set -x
+    ./fastboot.sh $ABL $DISABLE || error "fastboot.sh failed"
+    #./fastboot.sh --abl --disable-verity --disable-verification || error "fastboot.sh failed"
+    #./fastboot.sh --disable-verity --disable-verification || error "fastboot.sh failed"
+    #./fastboot.sh --disable-verification || error "fastboot.sh failed"
+    #./fastboot.sh --disable-verity || error "fastboot.sh failed"
+    #./fastboot.sh --abl || error "fastboot.sh failed"
+    set +x
+}
+
+function unpack_zip
+{
+    TMP_DIR="$(mktemp -d)" || error "Could not create temp directory"
+    trap "rm -r $TMP_DIR" EXIT
+    unzip -d "$TMP_DIR" $FLASH_THIS || error "Could not unzip $FLASH_THIS to $TMP_DIR"
+    FLASH_THIS="$TMP_DIR"
+}
+
+[ -f "$FLASH_THIS" ] && [ "zip" = ${FLASH_THIS##*.} ] && unpack_zip
+
+[ -d "$FLASH_THIS" ] || error "Flashfiles directory missing: $FLASH_THIS"
+
+pushd $FLASH_THIS > /dev/null
+
+echo "Flashing from: $FLASH_THIS"
+
+run_fastboot
+
+popd > /dev/null
+

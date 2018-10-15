@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -n "$1" ]
+then
+    tmux send-keys -t $1 q
+fi
+
+

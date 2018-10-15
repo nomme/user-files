@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# START VirtualBox
+#VM_NAME="win7"
+#
+#function error()
+#{
+#  echo "Error: $@" >&2
+#  exit -1
+#}
+#
+#function isRunning()
+#{
+#    (vboxmanage showvminfo $VM_NAME 2> /dev/null || error "Could not run vboxmanage") | grep "^State:" | grep running
+#}
+#
+#if [ -n "$(isRunning)" ]
+#then
+# echo -n "Hold on! Shutting down Windows 7"
+# vboxmanage controlvm $VM_NAME acpipowerbutton || error "Could not run vboxmanage"
+# echo " Returned $?"
+#
+# while [ -n "$(isRunning)" ]
+# do
+#     echo -n .
+#     sleep 1
+# done
+#
+# echo "Done"
+#
+#fi
+# END VirtualBox
+
+
+# START VMWare
+VM_NAME="win7"
+VM_PATH="$HOME/.vmware/$VM_NAME/$VM_NAME.vmx"
+
+function error()
+{
+  echo "Error: $@" >&2
+  exit -1
+}
+
+function isRunning()
+{
+    (vmrun list 2> /dev/null || error "Could not run vmrun") | grep $VM_NAME
+}
+
+if [ -n "$(isRunning)" ]
+then
+ echo -n "Hold on! Suspending Windows 7"
+ vmrun -T player suspend $VM_PATH || error "Could not run vmrun"
+ echo " Returned $?"
+
+ while [ -n "$(isRunning)" ]
+ do
+     echo -n .
+     sleep 1
+ done
+
+ echo "Done"
+
+fi
+# END VMWare
+

@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ -n "$TMUX" ]
+then
+    tmux split-window -b -l 7 htop
+    HTOP_PANE="$(tmux display-message -p "#{pane_id}")"
+    tmux last-pane
+    echo "$HTOP_PANE"
+
+    # Use this trap in script
+    # trap "unhtop_that_tmux $HTOP_PANE" EXIT
+fi

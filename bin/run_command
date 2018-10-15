@@ -1,0 +1,24 @@
+#!/bin/bash
+
+#source $HOME/.${CURRENTPROJ}_params
+
+function error()
+{
+    echo "error: $(basename $0) $@" >&2
+    exit 1
+}
+
+
+COMMAND="$@"
+echo "$(hostname) executing: $COMMAND"
+
+pushd $AOSP_HOME > /dev/null
+source $AOSP_HOME/build/envsetup.sh > /dev/null || error "Source failed"
+lunch "$LUNCH_IT" > /dev/null || error "Lunch failed"
+popd > /dev/null
+
+echo "$(hostname) Lunch: $LUNCH_IT"
+echo "$(hostname) Display: $USED_DISPLAY_DEVICE"
+
+
+$COMMAND

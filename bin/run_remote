@@ -1,0 +1,45 @@
+#!/bin/bash
+
+function error()
+{
+    echo "$(basename $0) error: $@" >&2
+    exit 1
+}
+
+COMMAND="$@"
+GOTO_DIR="$(pwd)"
+
+[ -n "$BUILD_SERVER" ] || error "No build server set"
+[ -n "$CURRENTPROJ" ] || error "No project set"
+[ -f "$HOME/.${CURRENTPROJ}_params" ] || error "No project parameters found - .${CURRENTPROJ}_params"
+
+if [ "core-build-01" == $BUILD_SERVER ]
+then
+    NICE='renice -n 5 -p $$ && ionice -c2 -n5 -p$$ &&'
+elif [ "ubuntedx" == $BUILD_SERVER ]
+then
+    PANE="$(htop_that_tmux)"
+    trap "unhtop_that_tmux $PANE" EXIT
+fi
+
+START_TIME="$(date +%s)"
+
+ssh -t $BUILD_SERVER "$NICE \
+    source $HOME/local/profile ; \
+    $(cat $HOME/.${CURRENTPROJ}_params | sed -r '/^#|^$/d' | tr '\n' ';') \
+    export CURRENTPROJ=$CURRENTPROJ; \
+    cd $GOTO_DIR && \
+    $HOME/local/bin/run_command '$COMMAND'"
+
+RETURN_VALUE="$?"
+
+END_TIME="$(date +%s)"
+
+TIME_DIFF="$[$END_TIME-$START_TIME]"
+if [ 15 -lt $TIME_DIFF ]
+then
+    echo -e '\a'
+fi
+
+exit $RETURN_VALUE
+

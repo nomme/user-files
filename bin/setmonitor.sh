@@ -13,7 +13,13 @@ function is_monitor()
 
 if [ -n "$(is_monitor $DP1)" ] && [ -n "$(is_monitor $DP2)" ]
 then
-    xrandr --output $DP1 --auto --pos 0x280 --output $DP2 --auto --rotate left --pos 2560x0 --output $INTERNAL_MONITOR --off
+    #xrandr --output $DP1 --off
+    #xrandr --output $DP2 --off
+    #xrandr --output $INTERNAL_MONITOR --off
+    xrandr --output $DP1 --auto
+    sleep 3
+    #xrandr --output $DP1 --auto --pos 0x280 --output $DP2 --auto --rotate left --pos 2560x0 --output $INTERNAL_MONITOR --off
+    xrandr --output $INTERNAL_MONITOR --off --output $DP1 --auto --pos 0x120 --output $DP2 --auto --rotate left --pos 2560x0
     echo "Dual: $DP1, $DP2"
 elif [ -n "$(is_monitor $DP1)" ] && [ -n "$(is_monitor $INTERNAL_MONITOR)" ]
 then
@@ -34,6 +40,8 @@ then
 elif [ -n "$(is_monitor $INTERNAL_MONITOR)" ]
 then
     xrandr --output $INTERNAL_MONITOR --auto --output $DP1 --off --output $DP2 --output $HDMI1 --off
+    sleep 2
+    xrandr --output $DP1 --off --output $DP2 --off --output $HDMI1 --off
     echo "Single: $INTERNAL_MONITOR"
 fi
 

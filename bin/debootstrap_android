@@ -3,7 +3,7 @@
 ARCH="amd64"
 #SUIT="yakkety" # 16.10
 SUIT="xenial" # 16.04
-INCLUDE="vim,zsh,dbus,git,build-essential,python,openjdk-8-jdk,curl,gcc-multilib,zip,unzip,libxml2-utils,ssh,bc,libssl-dev,m4,linux-source,libsm6"
+INCLUDE="vim,zsh,dbus,git,build-essential,python,openjdk-8-jdk,curl,gcc-multilib,zip,unzip,libxml2-utils,ssh,bc,libssl-dev,m4,linux-source,libsm6,python3-xlrd"
 DESTINATION="$1"
 
 function error()

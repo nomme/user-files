@@ -1,0 +1,3 @@
+#!/bin/bash
+
+vmrun -T player start ~/.vmware/win7/win7.vmx
