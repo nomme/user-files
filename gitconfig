@@ -13,6 +13,7 @@
   default = tracking
 [diff]
   tool = kdiff3
+  colorMoved = plain
 [difftool]
   prompt = false
 [mergetool]
