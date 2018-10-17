@@ -1,1 +1,1 @@
-ACTION=="change", SUBSYSTEM=="drm", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/hogklint/.Xauthority", RUN+="/home/hogklint/local/bin/monitor_changed.sh"
+ACTION=="change", SUBSYSTEM=="drm", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/jimmieh/.Xauthority", RUN+="/home/jimmieh/local/bin/monitor_changed.sh"

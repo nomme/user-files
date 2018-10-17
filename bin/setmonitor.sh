@@ -1,8 +1,8 @@
 #!/bin/bash
-INTERNAL_MONITOR="eDP1"
-DP1="DP1-1"
-DP2="DP1-2"
-HDMI1="HDMI1"
+INTERNAL_MONITOR="eDP-1"
+DP1="DP-1-2-8"
+DP2="DP-1-2-1-8"
+HDMI1="HDMI-1"
 
 CONNECTED_MONITORS="$(xrandr | grep -E "\sconnected" | cut -d' ' -f1)"
 
