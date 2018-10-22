@@ -4,7 +4,7 @@
   name = Jimmie Hogklint
   email = jimmie.hogklint@aptiv.com
 [diff]
-  tool = vimdiff
+  tool = kdiff3
 [merge]
   tool = kdiff3
 [mergetool]

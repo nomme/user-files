@@ -1,4 +1,5 @@
 #urxvt*font:             xft:DejaVu Sans Mono:autohint=true:size=20
+#urxvt*font:             xft:Bitstream Vera Sans Mono:pixelsize=12
 urxvt*termName:         rxvt
 urxvt*background:       #000000
 urxvt*foreground:       #cccccc
