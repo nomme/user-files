@@ -484,7 +484,7 @@ awful.rules.rules = {
        properties = { screen = 1, tag = "3" } },
      { rule = { class = "Vmplayer" },
        properties = { maximized = true, floating = false, screen = 1, tag = "4" } },
-     { rule = { class = "zim" },
+     { rule = { class = "Zim" },
        properties = { floating = false, screen = 1, tag = "5" } },
 }
 -- }}}
