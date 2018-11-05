@@ -1,0 +1,49 @@
+#!/bin/bash
+
+#perl -ne '
+#    use Text::Table;
+#    my $tb = Text::Table->new();
+#
+#    while(<>)
+#    {
+#        /avc.*denied/ &&
+#            m/^ *(?<time>[0-9\.]+).*avc: *denied *(?<action>\{.*\}) +(?<metadata>for .*) +(?<scontext>scontext[^\s]+) +(?<tcontext>tcontext[^\s]+) +(?<tclass>tclass[^\s]+) +(?<permissive>permissive=.)/ &&
+#            print "$+{time} $+{action} $+{metadata} $+{scontext} $+{tcontext} $+{tclass} $+{permissive} \n";
+#        select()->flush();
+#    }
+#        '
+
+perl -ne '
+    use Text::Table;
+    my $tb = Text::Table->new();
+    my $table_width = 0;
+    while(<>)
+    {
+        if(/avc.*denied/ &&
+            m/^ *(?<time>[0-9\.]+).*avc: *denied *(?<action>\{.*\}) +(?<metadata>for .*) +(?<scontext>scontext[^\s]+) +(?<tcontext>tcontext[^\s]+) +(?<tclass>tclass[^\s]+) +(?<permissive>permissive=.)/)
+        {
+            $tb->load(
+                    ["$+{time}", "$+{action}", "$+{metadata}", "$+{scontext}", "$+{tcontext}", "$+{tclass}", "$+{permissive}"],
+                    );
+        }
+    }
+    print $tb;
+        '
+
+#perl -ne '
+#    use Text::Table;
+#    my $tb = Text::Table->new();
+#    my $table_width = 0;
+#    while(<>)
+#    {
+#        if(/avc.*denied/ &&
+#            m/^ *(?<time>[0-9\.]+).*avc: *denied *(?<action>\{.*\}) +(?<metadata>for .*) +(?<scontext>scontext[^\s]+) +(?<tcontext>tcontext[^\s]+) +(?<tclass>tclass[^\s]+) +(?<permissive>permissive=.)/)
+#        {
+#            $tb->load(
+#                    ["$+{time}", "$+{action}", "$+{metadata}", "$+{scontext}", "$+{tcontext}", "$+{tclass}", "$+{permissive}"],
+#                    );
+#            # Becomes gradually more slow for each element
+#            print $tb->table(-1);
+#        }
+#    }
+#        '
