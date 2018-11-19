@@ -13,61 +13,64 @@
 #    }
 #        '
 
-perl -e '
-    use Text::Table;
-    use List::Object;
-    my $tb = Text::Table->new();
-    my $table_width = 0;
-    my %denials;
-print "-1\n";
-    while(<>)
-    {
-        if(/avc.*denied/ &&
-            m/^ *(?<time>[0-9\.]+).*avc: *denied *(?<action>\{.*\}) +(?<metadata>for .*) +(?<scontext>scontext[^\s]+) +(?<tcontext>tcontext[^\s]+) +(?<tclass>tclass[^\s]+) +(?<permissive>permissive=.)/)
-        {
-            if(!exists($denials{$+{scontext} } ))
-            {
-                my $list = List::Object->new();
-                $denials{$+{scontext} } = \$list
-            }
-            $denials{$+{scontext} }->add(["$+{time}", "$+{action}", "$+{metadata}", "$+{scontext}", "$+{tcontext}", "$+{tclass}", "$+{permissive}"]);
-        }
-    }
-    print "1\n";
-
-    @denial_keys = keys %denials;
-    for my $k (@denial_keys)
-    {
-        print "1.1\n";
-        #print $k, " -> ", $denials{$k};
-        for my $d (@denials{$k})
-        {
-            print "1.2\n";
-            print $d, "\n";
-        #    $tb->load(
-        #    @d
-        #    );
-        }
-    }
-
-print "2\n";
-    print $tb;
-        '
-
-#perl -ne '
+#perl -e '
 #    use Text::Table;
+#    use List::Object;
 #    my $tb = Text::Table->new();
 #    my $table_width = 0;
+#    my %denials;
+#print "-1\n";
 #    while(<>)
 #    {
 #        if(/avc.*denied/ &&
 #            m/^ *(?<time>[0-9\.]+).*avc: *denied *(?<action>\{.*\}) +(?<metadata>for .*) +(?<scontext>scontext[^\s]+) +(?<tcontext>tcontext[^\s]+) +(?<tclass>tclass[^\s]+) +(?<permissive>permissive=.)/)
 #        {
-#            $tb->load(
-#                    ["$+{time}", "$+{action}", "$+{metadata}", "$+{scontext}", "$+{tcontext}", "$+{tclass}", "$+{permissive}"],
-#                    );
-#            # Becomes gradually more slow for each element
-#            print $tb->table(-1);
+#            if(!exists($denials{$+{scontext} } ))
+#            {
+#                my $list = List::Object->new();
+#                $denials{$+{scontext} } = \$list
+#            }
+#            $denials{$+{scontext} }->add(["$+{time}", "$+{action}", "$+{metadata}", "$+{scontext}", "$+{tcontext}", "$+{tclass}", "$+{permissive}"]);
 #        }
 #    }
+#    print "1\n";
+#
+#    @denial_keys = keys %denials;
+#    for my $k (@denial_keys)
+#    {
+#        print "1.1\n";
+#        #print $k, " -> ", $denials{$k};
+#        for my $d (@denials{$k})
+#        {
+#            print "1.2\n";
+#            print $d, "\n";
+#        #    $tb->load(
+#        #    @d
+#        #    );
+#        }
+#    }
+#
+#print "2\n";
+#    print $tb;
 #        '
+
+perl -e '
+    use List::Util qw[min max];
+    my $max_time = $max_action = $max_metadata = $max_scontext = $max_tcontext = $max_tclass = 0;
+    while(<>)
+    {
+        if(/avc.*denied/ &&
+            m/^ *(?<time>[0-9\.]+).*avc: *denied *(?<action>\{.*)\} +(?<metadata>for .*) +(?<scontext>scontext[^\s]+) +(?<tcontext>tcontext[^\s]+) +(?<tclass>tclass[^\s]+) +(?<permissive>permissive=.)/)
+        {
+            $max_time = max($max_time, length($+{time}));
+            $max_action = max($max_action, length($+{action}));
+            $max_metadata = max($max_metadata, length($+{metadata}));
+            $max_scontext = max($max_scontext, length($+{scontext}));
+            $max_tcontext = max($max_tcontext, length($+{tcontext}));
+            $max_tclass = max($max_tclass , length($+{tclass}));
+
+            printf "%-${max_time}s %-${max_action}s\} %-${max_metadata}s %-${max_scontext}s %-${max_tcontext}s %-${max_tclass}s %-12s\n",
+                $+{time}, $+{action}, $+{metadata}, $+{scontext}, $+{tcontext}, $+{tclass}, $+{permissive};
+        }
+    }
+        '
