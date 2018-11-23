@@ -1,11 +1,12 @@
 #!/bin/bash
 
+if [ $CURRENTPROJ = SEM ] && [ 1 -ne $(adb devices | grep "$ANDROID_SERIAL" | wc -l) ];
+then
+    adb connect "$ANDROID_SERIAL"
+fi
+
 echo -n "Waiting for adb device..."
-while [ $(adb devices | grep -w device | wc -l) -ne 1 ]
-do
-    echo -n .
-    sleep 1
-done
+adb wait-for-any-device
 echo "Found"
 
-adb shell $@ # logcat | grep -E "AShmemS|XSAL_Shm_0_0|df: -1"
+adb shell $@

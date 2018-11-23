@@ -1,11 +1,1 @@
-#!/bin/bash
-
-echo -n "Waiting for adb device..."
-while [ $(adb devices | grep -w device | wc -l) -ne 1 ]
-do
-    echo -n .
-    sleep 1
-done
-echo "Found"
-
-adb shell $@ # logcat | grep -E "AShmemS|XSAL_Shm_0_0|df: -1"
+wadb
