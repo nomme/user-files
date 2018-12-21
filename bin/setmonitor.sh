@@ -2,7 +2,7 @@
 INTERNAL_MONITOR="eDP1"
 DP1="DP1-2-8"
 DP2="DP1-2-1-8"
-HDMI1="HDMI-1"
+HDMI1="HDMI1"
 
 CONNECTED_MONITORS="$(xrandr | grep -E "\sconnected" | cut -d' ' -f1)"
 

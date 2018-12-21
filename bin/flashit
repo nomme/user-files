@@ -56,6 +56,7 @@ function run_fastboot()
         echo "Found"
     fi
 
+    unset ANDROID_SERIAL
     set -x
     ./fastboot.sh $ABL $DISABLE || error "fastboot.sh failed"
     #./fastboot.sh --abl --disable-verity --disable-verification || error "fastboot.sh failed"
