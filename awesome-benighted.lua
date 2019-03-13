@@ -557,5 +557,16 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 
-awful.util.spawn("/home/jimmieh/local/bin/run_once.sh")
+function sleep(n)
+  os.execute("sleep " .. tonumber(n))
+end
+--awful.util.spawn("/home/jimmieh/local/bin/run_once.sh")
+awful.spawn.once("zim", { floating = false, screen = 1, tag = "5" } )
+awful.spawn.once("pidgin", { floating = false, screen = 1, tag = "3" } )
+awful.spawn.once("chromium --restore-last-session", { floating = false, screen = function() return screen.count() > 1 and 2 or 1 end, tag = "2" } )
+awful.spawn.once("nm-applet", {} )
+awful.spawn.once("urxvt -e tmuxifier load-session ihu2", { floating = false, maximized = true, screen = function() return screen.count() > 1 and 2 or 1 end, tag = "1" } )
+awful.spawn.once("urxvt -e tmuxifier load-session sem2", { floating = false, maximized = true, screen = function() return screen.count() > 1 and 2 or 1 end, tag = "1" } )
+awful.spawn.once("urxvt -e tmuxifier load-session ihu1", { floating = false, maximized = true, screen = 1, tag = "1" } )
+--awful.spawn.once("urxvt -e tmuxifier load-session sem1", { floating = false, maximized = true, screen = 2, tag = "1" } )
 -- }}}
