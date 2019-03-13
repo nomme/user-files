@@ -4,9 +4,9 @@
   name = Jimmie Hogklint
   email = jimmie.hogklint@aptiv.com
 [diff]
-  tool = kdiff3
+  tool = vimdiff
 [merge]
-  tool = kdiff3
+  tool = vimdiff
 [mergetool]
   renormalize = false
 [http]
@@ -14,3 +14,5 @@
   cookiefile = /home/jimmieh/.gitcookies
 [rerere]
   enabled = false
+[color]
+	ui = auto
