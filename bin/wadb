@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ $CURRENTPROJ = SEM ] && [ 1 -ne $(adb devices | grep "$ANDROID_SERIAL" | wc -l) ];
-then
-    adb connect "$ANDROID_SERIAL"
-fi
-
 echo -n "Waiting for adb device..."
 adb wait-for-any-device
 echo "Found"
