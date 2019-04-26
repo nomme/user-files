@@ -6,7 +6,7 @@ my $max_time = $max_action = $max_metadata = $max_scontext = $max_tcontext = $ma
 while(<>)
 {
     if(/avc.*denied/ &&
-        m/^ *(?<time>[0-9\.]+).*avc: *denied *(?<action>\{.*)\} +(?<metadata>for .*) +(?<scontext>scontext[^\s]+) +(?<tcontext>tcontext[^\s]+) +(?<tclass>tclass[^\s]+) +(?<permissive>permissive=.)/)
+        m/^ *(?<time>[-0-9\.]+).*avc: *denied *(?<action>\{.*)\} +(?<metadata>for .*) +(?<scontext>scontext[^\s]+) +(?<tcontext>tcontext[^\s]+) +(?<tclass>tclass[^\s]+) +(?<permissive>permissive=.)/)
     {
         $max_time = max($max_time, length($+{time}));
         $max_action = max($max_action, length($+{action}));
