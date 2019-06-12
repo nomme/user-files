@@ -12,6 +12,9 @@ URxvt*visualBell:       false
 URxvt*urgentOnBell:     true
 #urxvt*fadeColor:        #000000
 
+# Show underscore
+URxvt.lineSpace:        1
+
 #Blue to teal
 #URxvt.color12:           #00DDFF
 #include "repos/urxvt-color-themes/solarized"
