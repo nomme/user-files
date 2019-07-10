@@ -6,6 +6,7 @@
   co = checkout
   a = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%ci)%C(yellow)%d%Creset%s %C(bold blue)<%an>%Creset' --abbrev-commit --date-order
   al = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%ci)%C(yellow)%d%Creset%s %C(bold blue)<%an>%Creset' --abbrev-commit --date-order -C -M --all
+  alt = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%ci)%C(yellow)%d%Creset%s %C(bold blue)<%an>%Creset' --abbrev-commit --topo-order -C -M --all
   s = log --graph --pretty=format:'%Cred%h%Creset - %Cgreen(%ci)%C(yellow)%d%Creset%s %C(bold blue)<%an>%Creset' --abbrev-commit --date-order --stat
   l = log --graph --date-order --decorate
   showtool = "!showci () { rev=${1:-HEAD}; git difftool $rev~1 $rev; }; showci $1"
