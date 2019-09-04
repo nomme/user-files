@@ -5,7 +5,8 @@ CURL_QUITE="-fs"
 
 [ -z ${JENKINS_TEST_JOB+x} ] && error "JENKINS_TEST_JOB not set"
 SEM_NAME="VGTT_P2952_SEM_ci-auto-test"
-IHU_NAME="vcc-ihu_android_ci-auto-test"
+#IHU_NAME="vcc-ihu_android_ci-auto-test"
+IHU_NAME="vcc-ihu-android-integration-tests"
 
 function error()
 {
