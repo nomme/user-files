@@ -1,4 +1,7 @@
+urxvt.font:     xft:bitstream vera sans mono:size=8:antialias=false:autohint=true
 #urxvt*font:             xft:DejaVu Sans Mono:autohint=true:size=20
+#urxvt*.font:  xft:DejaVu Sans Mono:autohint=true:antialias=false:pixelsize=10
+#urxvt*font:           xft:Inconsolata:size=8:autohint=true
 urxvt*termName:         rxvt
 urxvt*background:       #000000
 urxvt*foreground:       #cccccc
@@ -11,6 +14,8 @@ urxvt*fading:           15
 URxvt*visualBell:       false
 URxvt*urgentOnBell:     true
 #urxvt*fadeColor:        #000000
+#URxvt.buffered:        false
+#urxvt.letterSpace: -1
 
 # Show underscore
 URxvt.lineSpace:        1
@@ -18,3 +23,83 @@ URxvt.lineSpace:        1
 #Blue to teal
 #URxvt.color12:           #00DDFF
 #include "repos/urxvt-color-themes/solarized"
+
+#urxvt.font: xft:DejaVu Sans Mono:autohint=true:antialias=false:size=8
+#urxvt.font: xft:Source Code Pro Semibold:autohint=true:antialias=false:size=8
+
+#urxvt.font: xft:C059 Bold:autohint=true:antialias=false:size=8
+#urxvt.font: xft:C059 Bold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:C059 Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:C059 Roman:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Cantarell Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Cantarell Extra Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Cantarell Light:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Cantarell Regular:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Cantarell Thin:autohint=true:antialias=false:size=10
+#urxvt.font: xft:D050000L:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVuMathTeXGyre-Regular:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Bold Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Condensed:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Condensed Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Condensed Bold Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Condensed Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans ExtraLight:autohint=true:antialias=false:size=7
+#urxvt.font: xft:DejaVu Sans Mono Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Mono Bold Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Mono Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Sans Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Serif:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Serif Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Serif Bold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Serif Condensed:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Serif Condensed Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Serif Condensed Bold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Serif Condensed Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:DejaVu Serif Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Mono PS:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Mono PS Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Mono PS Bold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Mono PS Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Roman:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Roman Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Roman Bold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Roman Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Sans:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Sans Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Sans Bold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Sans Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Sans Narrow:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Sans Narrow Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Sans Narrow Bold Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Nimbus Sans Narrow Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:P052 Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:P052 Bold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:P052 Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:P052 Roman:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Black:autohint=true:antialias=false:size=8
+#urxvt.font: xft:Source Code Pro Black Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Bold:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Bold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro ExtraLight:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro ExtraLight Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Light:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Light Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Medium:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Medium Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Pro Semibold Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Variable:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Source Code Variable Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Standard Symbols PS:autohint=true:antialias=false:size=10
+#urxvt.font: xft:URW Bookman Demi:autohint=true:antialias=false:size=10
+#urxvt.font: xft:URW Bookman Demi Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:URW Bookman Light:autohint=true:antialias=false:size=10
+#urxvt.font: xft:URW Bookman Light Italic:autohint=true:antialias=false:size=10
+#urxvt.font: xft:URW Gothic Book:autohint=true:antialias=false:size=10
+#urxvt.font: xft:URW Gothic Book Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:URW Gothic Demi:autohint=true:antialias=false:size=10
+#urxvt.font: xft:URW Gothic Demi Oblique:autohint=true:antialias=false:size=10
+#urxvt.font: xft:Z003 Medium Italic:autohint=true:antialias=false:size=10
