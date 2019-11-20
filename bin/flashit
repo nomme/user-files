@@ -37,30 +37,26 @@ else
     FLASH_THIS="$AOSP_HOME/out/target/product/$PROJ_DEVICE/$PROJ_PRODUCT-flashfiles-eng.$USER.zip"
 fi
 
+function wait_for_fastboot()
+{
+    echo -n "Waiting for fastboot device..."
+    while [ $(fastboot devices | wc -l) -eq 0 ]
+    do
+        echo -n .
+        sleep 1
+    done
+    echo "Found"
+}
+
 function run_fastboot()
 {
+    echo "Flashing from: $FLASH_THIS"
     [ -f "fastboot.sh" ] || error "No fastboot.sh file found"
     chmod 750 fastboot.sh
-
-    if [ 0 -eq $(fastboot devices | wc -l) ]
-    then
-        wadb :
-        adb reboot bootloader
-
-        echo -n "Waiting for fastboot device..."
-        while [ $(fastboot devices | wc -l) -eq 0 ]
-        do
-            echo -n .
-            sleep 1
-        done
-        echo "Found"
-    fi
 
     unset ANDROID_SERIAL
     set -x
     ./fastboot.sh $ABL $DISABLE || error "fastboot.sh failed"
-    #./fastboot.sh --disable-verification || error "fastboot.sh failed"
-    #./fastboot.sh --disable-verity || error "fastboot.sh failed"
     set +x
 }
 
@@ -68,7 +64,7 @@ function unpack_zip
 {
     TMP_DIR="$(mktemp -d)" || error "Could not create temp directory"
     trap "rm -r $TMP_DIR" EXIT
-    unzip -d "$TMP_DIR" $FLASH_THIS || error "Could not unzip $FLASH_THIS to $TMP_DIR"
+    unzip -d "$TMP_DIR" "$FLASH_THIS" || error "Could not unzip $FLASH_THIS to $TMP_DIR"
     FLASH_THIS="$TMP_DIR"
 }
 
@@ -78,9 +74,22 @@ function unpack_zip
 
 pushd $FLASH_THIS > /dev/null
 
-echo "Flashing from: $FLASH_THIS"
+if [ $PROJ_PRODUCT = ihu_kraken ]
+then
+    [ $(fastboot devices | wc -l) -ne 1 ] && vip pwr bm 2
+elif [ $PROJ_PRODUCT = gtt_hydra ]
+then
+    [ $(fastboot devices | wc -l) -ne 1 ] && { adb reboot bootloader 2>/dev/null || eadb reboot bootloader; }
+fi
+
+wait_for_fastboot
 
 run_fastboot
+
+if [ $PROJ_PRODUCT = ihu_kraken ]
+then
+    vip pwr bm 1
+fi
 
 popd > /dev/null
 
