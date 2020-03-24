@@ -1,0 +1,62 @@
+#!/bin/bash
+
+function error()
+{
+  echo "Error: $@" >&2
+  exit -1
+}
+[ -z ${AOSP_HOME+x} ] && error "AOSP_HOME not set"
+[ -z ${MIRROR_PATH+x} ] && error "PROJ_DEVICE not set"
+
+SEM_MIRROR_VOLUME="$MIRROR_PATH/sem:$MIRROR_PATH/sem:ro"
+IHU_MIRROR_VOLUME="$MIRROR_PATH/ihu:$MIRROR_PATH/ihu:ro"
+AOSP_VOLUME="$AOSP_HOME:/home/jenkins/aosp:ro"
+OUT_VOLUME="$AOSP_HOME/../docker_out:/home/jenkins/aosp/out"
+CCACHE_VOLUME="$HOME/.ccache:/home/jenkins/.ccache"
+GO_BUILD_CACHE_VOLUME="$HOME/.cache:/home/jenkins/.cache"
+SET_CCACHE_ENV="-e USE_CCACHE=Y \
+    -e CC_WRAPPER=/usr/local/bin/ccache \
+    -e CXX_WRAPPER=/usr/local/bin/ccache"
+
+while getopts i option
+do
+    case "$option"
+        in
+        i)
+            # interactive
+            CMD="bash"
+            EXTRA_FLAGS="-ti"
+            ;;
+        ?)
+            error "Unknown option"
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z $CMD ]
+then
+    pane="$(htop_that_tmux)"
+    trap "unhtop_that_tmux $pane" EXIT
+
+    CMD="pushd /home/jenkins/aosp && source build/envsetup.sh && lunch $LUNCH_IT && make"
+    if [ 0 -eq $# ]
+    then
+        CMD="$CMD flashfiles"
+    else
+        CMD="$CMD $@"
+    fi
+fi
+
+docker run  --rm \
+    $EXTRA_FLAGS \
+    -v $SEM_MIRROR_VOLUME \
+    -v $IHU_MIRROR_VOLUME \
+    -v $AOSP_VOLUME \
+    -v $OUT_VOLUME \
+    -v $CCACHE_VOLUME \
+    -v $GO_BUILD_CACHE_VOLUME \
+    -u $(id -u):$(id -g) \
+    -e HOME="/home/jenkins" \
+    $SET_CCACHE_ENV \
+    $DOCKER_AOSP_BUILDER /bin/bash -c "$CMD"

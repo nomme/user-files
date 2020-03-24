@@ -1,0 +1,65 @@
+#!/bin/bash
+
+function error()
+{
+    echo "$(basename $0) error: $@" >&2
+    exit 1
+}
+
+[ -d $AOSP_HOME ] || error "Could not find $AOSP_HOME"
+
+pushd $AOSP_HOME
+
+rsync -avzh --progress --delete \
+    --filter="+ hardware/intel/kernelflinger/.git/" \
+    --filter="+ hardware/intel/external/mesa3d-intel/.git" \
+    --filter="+ vendor/intel/abl/abl_prebuilt/external/.git/" \
+    --filter="+ device/delphi/volvoihu/.git/" \
+    --filter="+ device/aptiv/bsp/.git/" \
+    --filter="+ device/aptiv/ihu_common/.git/" \
+    --filter="+ .repo/" \
+    --filter="+ .repo/project-objects/" \
+    --filter="+ .repo/project-objects/bsp/" \
+    --filter="+ .repo/project-objects/bsp/device/" \
+    --filter="+ .repo/project-objects/bsp/device/aptiv/" \
+    --filter="+ .repo/project-objects/bsp/device/aptiv/ihu_common.git/***" \
+    --filter="+ .repo/project-objects/bsp/device/delphi/" \
+    --filter="+ .repo/project-objects/bsp/device/delphi/volvoihu.git/***" \
+    --filter="+ .repo/project-objects/bsp/hardware/" \
+    --filter="+ .repo/project-objects/bsp/hardware/intel/" \
+    --filter="+ .repo/project-objects/bsp/hardware/intel/efi/" \
+    --filter="+ .repo/project-objects/bsp/hardware/intel/efi/kernelflinger.git/***" \
+    --filter="+ .repo/project-objects/bsp/vendor/" \
+    --filter="+ .repo/project-objects/bsp/vendor/intel/" \
+    --filter="+ .repo/project-objects/bsp/vendor/intel/abl/" \
+    --filter="+ .repo/project-objects/bsp/vendor/intel/abl/abl_prebuilt/" \
+    --filter="+ .repo/project-objects/bsp/vendor/intel/abl/abl_prebuilt/external.git/***" \
+    --filter="+ .repo/project-objects/bsp/vendor/intel/external/" \
+    --filter="+ .repo/project-objects/bsp/vendor/intel/external/mesa3d.git/***" \
+    --filter="+ .repo/projects/" \
+    --filter="+ .repo/projects/hardware/" \
+    --filter="+ .repo/projects/hardware/intel/" \
+    --filter="+ .repo/projects/hardware/intel/external/" \
+    --filter="+ .repo/projects/hardware/intel/external/mesa3d-intel.git/***" \
+    --filter="+ .repo/projects/hardware/intel/kernelflinger.git/***" \
+    --filter="+ .repo/projects/vendor/" \
+    --filter="+ .repo/projects/vendor/intel/" \
+    --filter="+ .repo/projects/vendor/intel/abl/" \
+    --filter="+ .repo/projects/vendor/intel/abl/abl_prebuilt/" \
+    --filter="+ .repo/projects/vendor/intel/abl/abl_prebuilt/external.git/***" \
+    --filter="+ .repo/projects/device/" \
+    --filter="+ .repo/projects/device/delphi/" \
+    --filter="+ .repo/projects/device/delphi/volvoihu.git/***" \
+    --filter="+ .repo/projects/device/aptiv/" \
+    --filter="+ .repo/projects/device/aptiv/bsp.git/***" \
+    --filter="+ .repo/projects/device/aptiv/ihu_common.git/***" \
+    --filter="- .repo/**" \
+    --filter="- .git" \
+    --filter="- /out" \
+    --filter="- /.clangd" \
+    --filter="- /compile_commands.json" \
+    . $BUILD_SERVER:$AOSP_HOME
+
+popd
+
+run_remote m -j16 $@
