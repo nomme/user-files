@@ -10,7 +10,7 @@ function error()
 [ -z ${PROJ_DEVICE+x} ] && error "PROJ_DEVICE not set"
 [ -z ${PROJ_PRODUCT+x} ] && error "PROJ_PRODUCT not set"
 
-while getopts ad option
+while getopts adp option
 do
     case "$option"
         in
@@ -19,6 +19,9 @@ do
             ;;
         d)
             DISABLE="--disable-verity --disable-verification"
+            ;;
+        p)
+            CMDLINE="--cmdline"
             ;;
         ?)
             error "Unknown option"
@@ -36,6 +39,16 @@ else
     #FLASH_THIS="$AOSP_HOME/out/target/product/$PROJ_DEVICE/fast_flashfiles"
     FLASH_THIS="$AOSP_HOME/out/target/product/$PROJ_DEVICE/$PROJ_PRODUCT-flashfiles-eng.$USER.zip"
 fi
+
+function create_cmdline()
+{
+    if [ -n "$CMDLINE" ] && [ ! -f cmdline.img ]
+    then
+        echo "Creating permissive cmdline.img"
+        dd if=/dev/zero of="cmdline.img" bs=1M count=1 iflag=fullblock
+        echo -en "enforcing=0\nandroidboot.selinux=permissive\n" | dd of="cmdline.img" conv=nocreat,notrunc
+    fi
+}
 
 function wait_for_fastboot()
 {
@@ -56,7 +69,7 @@ function run_fastboot()
 
     unset ANDROID_SERIAL
     set -x
-    ./fastboot.sh $ABL $DISABLE || error "fastboot.sh failed"
+    ./fastboot.sh $ABL $DISABLE $CMDLINE || error "fastboot.sh failed"
     set +x
 }
 
@@ -73,6 +86,8 @@ function unpack_zip
 [ -d "$FLASH_THIS" ] || error "Flashfiles directory missing: $FLASH_THIS"
 
 pushd $FLASH_THIS > /dev/null
+
+create_cmdline
 
 if [ $PROJ_PRODUCT = ihu_kraken ]
 then
