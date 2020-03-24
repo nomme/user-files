@@ -4,6 +4,10 @@ DP1="DP-1-2-8"
 DP2="DP-1-2-1-8"
 HDMI1="HDMI-1"
 
+# New dock
+DP1="DP-1-1-8"
+DP2="DP-1-1-1-8"
+
 CONNECTED_MONITORS="$(xrandr | grep -E "\sconnected" | cut -d' ' -f1)"
 
 function is_monitor()
