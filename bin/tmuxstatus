@@ -1,0 +1,3 @@
+#/bin/bash
+
+echo "clangd: $(pgrep -x clangd.main | wc -l)"
