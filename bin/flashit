@@ -73,13 +73,30 @@ function run_fastboot()
     set +x
 }
 
+function is_url()
+{
+    url_regex='(https?|ftp|file)://[-A-Za-z0-9\+&@#/%?=~_|!:,.;]*[-A-Za-z0-9\+&@#/%=~_|]'
+    [[ $1 =~ $url_regex ]]
+}
+
+function dl_file
+{
+    TMP_FILE="$(mktemp --suffix ".zip")" || error "Could not create temp directory"
+    trap "rm -r $TMP_FILE" EXIT
+    echo "Downloading to $TMP_FILE"
+    curl -o "$TMP_FILE" "$1" || error "Could not download "$1" to $TMP_FILE"
+    FLASH_THIS="$TMP_FILE"
+}
+
 function unpack_zip
 {
     TMP_DIR="$(mktemp -d)" || error "Could not create temp directory"
-    trap "rm -r $TMP_DIR" EXIT
+    trap "rm -r $TMP_DIR $TMP_FILE" EXIT
     unzip -d "$TMP_DIR" "$FLASH_THIS" || error "Could not unzip $FLASH_THIS to $TMP_DIR"
     FLASH_THIS="$TMP_DIR"
 }
+
+is_url $FLASH_THIS && dl_file $FLASH_THIS
 
 [ -f "$FLASH_THIS" ] && [ "zip" = ${FLASH_THIS##*.} ] && unpack_zip
 
