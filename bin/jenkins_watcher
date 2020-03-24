@@ -24,7 +24,7 @@ function update_status()
     #set -x
     JOB_OUTPUT=$(curl -fs -u $CRED $URL 2>&1) || error "Curl returned error"
 
-    echo "$JOB_OUTPUT"
+    #echo "$JOB_OUTPUT"
     JOB_BUILDING=$(echo "$JOB_OUTPUT" | grep building | sed -r 's/.*building.\s+:\s+([a-zA-Z]+).*/\1/')
     JOB_RESULT=$(echo "$JOB_OUTPUT" | grep result | sed -r 's/.*result.\s+:\s+"?([a-zA-Z]+).*/\1/')
 }
