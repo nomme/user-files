@@ -111,7 +111,7 @@ then
     [ $(fastboot devices | wc -l) -ne 1 ] && vip pwr bm 2
 elif [ $PROJ_PRODUCT = gtt_hydra ]
 then
-    [ $(fastboot devices | wc -l) -ne 1 ] && { adb reboot bootloader 2>/dev/null || eadb reboot bootloader; }
+    [ $(fastboot devices | wc -l) -ne 1 ] && { mp su 0 usb_otg_switch.sh p; sleep 2; adb reboot bootloader; }
 fi
 
 wait_for_fastboot

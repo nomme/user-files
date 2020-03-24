@@ -1,0 +1,1 @@
+echo "$@" > /dev/serial/by-id/usb-FTDI_Dual_RS232-if00-port0
