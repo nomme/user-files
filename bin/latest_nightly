@@ -1,0 +1,9 @@
+#!/bin/bash
+
+URL="$ARTIFACTORY_URL/artifactory/api/storage/$ARTIFACTORY_NIGHTLY_PATH"
+
+latest_buildnr="$(curl -s "$URL" | jq '.children[-1].uri ' | sed -re 's#"/(.*)"#\1#')"
+
+latest_build_path="$(curl -s  "$URL/${latest_buildnr}/$PROJ_PRODUCT-flashfiles-${latest_buildnr}.zip" | jq -r '(.repo + .path)')"
+
+echo "$ARTIFACTORY_URL/artifactory/$latest_build_path"
