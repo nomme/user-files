@@ -28,20 +28,21 @@ $my_name will update the manifest files in the current directory with the
 revisions from the given Gerrit URLs. It will update to the latest available
 revisions. "upstream" attribute is updated when applicable.
 
--p      Update P manifests
--q      Update Q manifests (default)
+-c <username:http cred>    Gerrit credentials
+-p                         Update P manifests
+-q                         Update Q manifests (default)
 
 Examples:
 $my_name http://1.2.3.4:8080/c/my_repository/+/123456
 $my_name -p http://1.2.3.4:8080/c/my_repository/+/123456/
 $my_name -q http://1.2.3.4:8080/123456
 
-Gerrit credentials shall be put into $GERRIT_CRED_PATH
-The format of the file is '<username>:<http credentials>'
+Gerrit credentials can be given as an argument or put into $GERRIT_CRED_PATH
+The format for credentials are '<username>:<http credentials>'
 EOF
 }
 
-while getopts hpq option
+while getopts hc:pq option
 do
     case "$option"
         in
@@ -50,6 +51,9 @@ do
             ;;
         q)
             MANIFESTS="${Q_MANIFESTS[@]}"
+            ;;
+        c)
+            GERRIT_CREDENTIALS="$OPTARG"
             ;;
         h)
             ;&
@@ -63,16 +67,18 @@ shift $((OPTIND-1))
 
 # Sanity tests
 [ -z ${MANIFESTS+x} ] && error "Variable MANIFESTS not set"
-for manifest in ${MANIFESTS[@]}; do [ -f $manifest ] && break; done || error "Could not find manifest files"
+for manifest in ${MANIFESTS[@]}; do [ -f $manifest ] && break; done || error "Could not find manifest files. Are you in .repo/manifests?"
 
 check_executable xmlstarlet
 check_executable jq
 check_executable sed
 check_executable curl
 
-GERRIT_CREDENTIALS="$(cat $GERRIT_CRED_PATH)" && \
-    [[ $GERRIT_CREDENTIALS =~ .+:.+ ]] || \
-    error "Did not find Gerrit credentials in $GERRIT_CRED_PATH"
+if [ -z "$GERRIT_CREDENTIALS" ]
+then
+    GERRIT_CREDENTIALS="$(cat $GERRIT_CRED_PATH)" || error "Credentials not found. Either use -c or $GERRIT_CRED_PATH"
+fi
+[[ $GERRIT_CREDENTIALS =~ .+:.+ ]] || error "Credentials format must be '<username>:<http credentials>'"
 
 # Loop URLs
 for change in $@;
