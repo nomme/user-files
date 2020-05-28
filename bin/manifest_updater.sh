@@ -5,7 +5,7 @@ JQ_QUERY=". | { project: .project, status: .status, current_revision: .current_r
 
 P_MANIFESTS=(IHU_android-P-devel.xml IHU_android-P-devel-src.xml devel-p.xml components.xml bsp-dev-p.xml)
 Q_MANIFESTS=(IHU_android-Q-devel.xml IHU_android-Q-devel-src.xml devel-q.xml components.xml bsp-dev-q.xml)
-MANIFESTS="${P_MANIFESTS[@]}"
+MANIFESTS="${Q_MANIFESTS[@]}"
 
 function error()
 {
@@ -28,8 +28,8 @@ $my_name will update the manifest files in the current directory with the
 revisions from the given Gerrit URLs. It will update to the latest available
 revisions. "upstream" attribute is updated when applicable.
 
--p      Update P manifests (default)
--q      Update Q manifests
+-p      Update P manifests
+-q      Update Q manifests (default)
 
 Examples:
 $my_name http://1.2.3.4:8080/c/my_repository/+/123456
