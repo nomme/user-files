@@ -13,7 +13,7 @@ function error()
 
 JOB_URL="$1"
 QUERY="api/json?pretty=1&tree=building,result"
-CRED="$(cat ~/.cred/jenkins_credentials)"
+CRED="$(pass aptiv/jenkins)"
 
 [[ $JOB_URL == */ ]] || JOB_URL="${JOB_URL}/"
 
