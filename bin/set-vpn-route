@@ -1,0 +1,28 @@
+#!/bin/bash
+
+set -x
+set -e
+
+if [ $# -eq 1 ]
+then
+    vpn_iface="$1"
+else
+    tries=0
+    while [ -z "$vpn_iface" ] && [ "$tries" -lt 15 ]
+    do
+        echo trying
+        vpn_iface="$(ip route | grep "default dev" | sed -re 's/default dev ([^\\s]+).*/\1/')"
+        tries=$((tries+1))
+        sleep 1
+    done
+    echo done
+fi
+
+[ -z "$vpn_iface" ] && exit 1
+
+echo "vpn_iface=$vpn_iface"
+
+sudo ip route add 10.0.0.0/8 dev $vpn_iface
+sudo ip route add 130.171.0.0/16 dev $vpn_iface
+sudo ip route add 144.250.0.0/16 dev $vpn_iface
+sudo ip route del default dev $vpn_iface
