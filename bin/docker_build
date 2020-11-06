@@ -8,6 +8,7 @@ function error()
 [ -z ${AOSP_HOME+x} ] && error "AOSP_HOME not set"
 [ -z ${MIRROR_PATH+x} ] && error "PROJ_DEVICE not set"
 
+DOCKER_AOSP_BUILDER="aosp_builder:0.3"
 SEM_MIRROR_VOLUME="$MIRROR_PATH/sem:$MIRROR_PATH/sem:ro"
 IHU_MIRROR_VOLUME="$MIRROR_PATH/ihu:$MIRROR_PATH/ihu:ro"
 AOSP_VOLUME="$AOSP_HOME:/home/jenkins/aosp:ro"
@@ -42,12 +43,13 @@ then
     CMD="pushd /home/jenkins/aosp && source build/envsetup.sh && lunch $LUNCH_IT && make"
     if [ 0 -eq $# ]
     then
-        CMD="$CMD flashfiles"
+        CMD="$CMD droid flashfiles"
     else
         CMD="$CMD $@"
     fi
 fi
 
+set -x
 docker run  --rm \
     $EXTRA_FLAGS \
     -v $SEM_MIRROR_VOLUME \
@@ -58,5 +60,10 @@ docker run  --rm \
     -v $GO_BUILD_CACHE_VOLUME \
     -u $(id -u):$(id -g) \
     -e HOME="/home/jenkins" \
+    -h "$(hostname)-aosp_builder" \
+    --name abuilder \
     $SET_CCACHE_ENV \
     $DOCKER_AOSP_BUILDER /bin/bash -c "$CMD"
+
+date
+echo -e '\a'
