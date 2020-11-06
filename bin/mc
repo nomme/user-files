@@ -1,0 +1,51 @@
+#!/bin/bash
+
+REUSE_COMMIT=0
+while getopts r option
+do
+    case "$option"
+        in
+        r)
+            REUSE_COMMIT=1
+            ;;
+        ?)
+            usage
+            exit 0
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+pushd "$AOSP_HOME/.repo/manifests" &>/dev/null
+if ! git diff-index --quiet HEAD --
+then
+    echo "Manifests repository already contains changes, exiting!"
+    exit 1
+fi
+
+MAIN_BRANCH="master"
+if [[ $CURRENTPROJ == IHU ]]
+then
+    MAIN_BRANCH="devel"
+fi
+
+if [ $REUSE_COMMIT -eq 1 ]
+then
+    SUBJECT="$(git log --format=%B -n 1 | head -1)
+
+"
+    CHANGE_ID="
+
+$(git log --format=%B -n 1 | grep -E "^Change-Id:")"
+else
+    echo "Current commit"
+    git show --oneline --no-patch
+    echo ""
+fi
+
+git fetch
+git checkout "origin/$MAIN_BRANCH"
+manifest_updater $@
+git commit -eam "${SUBJECT}$(python3 ./clone_commit_message_generator/commit_message_generator.py --plain)${CHANGE_ID}"
+
+popd &>/dev/null
