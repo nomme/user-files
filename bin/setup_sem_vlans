@@ -1,0 +1,27 @@
+#!/bin/bash
+
+ethernet_interface="enp0s20f0u2"
+sudo ip link set dev "$ethernet_interface" down
+sudo ip addr add 192.168.130.3/24 broadcast 192.168.130.255 dev "$ethernet_interface"
+sudo ip link set dev "$ethernet_interface" up
+
+sudo ip link add link "$ethernet_interface" name "$ethernet_interface.20" type vlan id 20
+sudo ip link add link "$ethernet_interface" name "$ethernet_interface.40" type vlan id 40
+sudo ip link add link "$ethernet_interface" name "$ethernet_interface.50" type vlan id 50
+
+sudo ip link set dev "$ethernet_interface.20" down
+sudo ip link set dev "$ethernet_interface.40" down
+sudo ip link set dev "$ethernet_interface.50" down
+
+sudo ip addr add 192.168.120.1/24 broadcast 192.168.120.255 dev "$ethernet_interface.20"
+sudo ip addr add 192.168.140.1/24 broadcast 192.168.140.255 dev "$ethernet_interface.40"
+sudo ip addr add 192.168.150.1/24 broadcast 192.168.150.255 dev "$ethernet_interface.50"
+
+sudo ip link set dev "$ethernet_interface.20" up
+sudo ip link set dev "$ethernet_interface.40" up
+sudo ip link set dev "$ethernet_interface.50" up
+
+ping -c 5 192.168.120.2
+ping -c 5 192.168.130.2
+ping -c 5 192.168.140.2
+ping -c 5 192.168.150.2
