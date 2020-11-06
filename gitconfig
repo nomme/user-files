@@ -27,3 +27,5 @@
   ff = only
 [commit]
   verbose = true
+[advice]
+	detachedHead = false
