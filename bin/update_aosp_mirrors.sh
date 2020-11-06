@@ -3,6 +3,7 @@
 MIRRORS_DIR="/home/common/mirrors"
 IHU_MIRROR="$MIRRORS_DIR/ihu"
 SEM_MIRROR="$MIRRORS_DIR/sem"
+SEM25_MIRROR="$MIRRORS_DIR/sem25"
 REPO_TOOL="/home/jimmieh/local/android/repo"
 
 # Setup:
@@ -30,5 +31,9 @@ $REPO_TOOL sync
 popd
 
 pushd $SEM_MIRROR
+$REPO_TOOL sync
+popd
+
+pushd $SEM25_MIRROR
 $REPO_TOOL sync
 popd
