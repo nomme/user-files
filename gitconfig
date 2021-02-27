@@ -25,6 +25,8 @@
   ff = only
 [merge]
   ff = only
+[pull]
+  ff = only
 [commit]
   verbose = true
 [advice]
